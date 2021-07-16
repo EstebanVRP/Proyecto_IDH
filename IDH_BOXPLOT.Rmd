@@ -1,0 +1,59 @@
+---
+title: "IDH_BOXPLOT"
+author: "Dudi"
+date: "9/7/2021"
+output: html_document
+---
+```{r}
+##Pedido de Esteban
+##1.- Añadir paquetes
+library(dplyr)
+library(ggplot2)
+
+##2.- Comprobar que IDH es una var numérica y cambiar Año de num a str
+##2.1 Para convertir una columna de chr a num
+     str(IDH_y_Componentes_2003_2019_4_)
+      Año_str <- as.character(IDH_y_Componentes_2003_2019_4_$Año)
+##2.2 Agregar esa columna a la BD
+IDH_1 <- cbind(IDH_y_Componentes_2003_2019_4_, Año_str)
+View(IDH_1)
+str(IDH_1)
+
+##3.- Filtrar a municipalidades productoras
+
+IDH_P <- IDH_1%>%
+  filter(`MUNICIPALIDADES PRODUCTORAS`=="Sí")
+
+View(IDH_P)
+##.- Gráfico boxplot
+IDH_P%>%
+  ggplot(aes(x = Año_str, y = IDH ,color = Año_str)) +
+  geom_boxplot()+
+  geom_jitter(color="black", size=0.4, alpha=0.9)+
+  coord_cartesian(ylim=c(0,1))+
+  theme_bw()
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
